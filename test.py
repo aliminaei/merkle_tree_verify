@@ -90,11 +90,37 @@ class TestMain(unittest.TestCase):
         self.assertFalse(main.is_hex_bytes("1"))
         self.assertFalse(main.is_hex_bytes("-1"))
         self.assertFalse(main.is_hex_bytes("az"))
+        self.assertFalse(main.is_hex_bytes("1z"))
         self.assertTrue(main.is_hex_bytes(""))
         self.assertTrue(main.is_hex_bytes("11"))
         self.assertTrue(main.is_hex_bytes("ab"))
         self.assertTrue(main.is_hex_bytes("1a"))
         self.assertTrue(main.is_hex_bytes("a1"))
+
+    def test_change_endian(self):
+        with self.assertRaises(ValueError):
+            main.change_endian("a")
+        with self.assertRaises(ValueError):
+            main.change_endian("z")
+        with self.assertRaises(ValueError):
+            main.change_endian("1")
+        with self.assertRaises(ValueError):
+            main.change_endian("-1")
+        with self.assertRaises(ValueError):
+            main.change_endian("az")
+        with self.assertRaises(ValueError):
+            main.change_endian("1z")
+        with self.assertRaises(ValueError):
+            main.change_endian("111")
+
+        self.assertEqual(main.change_endian(""), "")
+        self.assertEqual(main.change_endian("11"), "11")
+        self.assertEqual(main.change_endian("12"), "12")
+        self.assertEqual(main.change_endian("aa"), "aa")
+        self.assertEqual(main.change_endian("ab"), "ab")
+        self.assertEqual(main.change_endian("1122"), "2211")
+        self.assertEqual(main.change_endian("1234"), "3412")
+        self.assertEqual(main.change_endian("abcd"), "cdab")
 
     def test_verify_hash(self):
         with self.assertRaises(ValueError):

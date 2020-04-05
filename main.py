@@ -32,6 +32,8 @@ def verify_hash(timestamp_list, message, merkle_root):
     if not is_hex_bytes(merkle_root):
         raise ValueError("Invalid merkle root. Merkle root should be in valid hex format.")
 
+    merkle_root = change_endian(merkle_root)
+
     timestamps = []
     # Iterate through the list and parse Timestamp objects
     print("Parsing list of timestamps.")
@@ -39,6 +41,7 @@ def verify_hash(timestamp_list, message, merkle_root):
         timestamp = parse_timestamp(node)
         timestamps.append(timestamp)
 
+    # Navigating through the timestamps!
     for timestamp in timestamps:
         sha256 = hashlib.sha256()
         sha256.update(timestamp.prefix)
@@ -47,8 +50,16 @@ def verify_hash(timestamp_list, message, merkle_root):
         message = sha256.hexdigest()
         print message
 
+    # checking if the message verifies agains the root!
     return merkle_root == message
 
+def change_endian(hex_string):
+    if not is_hex_bytes(hex_string):
+        raise ValueError("The string is not a valid hexadecimal string.")
+
+    message_ba = bytearray.fromhex(hex_string)
+    message_ba.reverse()
+    return ''.join(format(x, '02x') for x in message_ba)
 
 def is_hex_bytes(hex_string):
     """
