@@ -38,6 +38,16 @@ def load_timestamp_list_from_file(filename):
 
     return timestamp_list
 
+def parse_timestamp(node):
+    """
+    This function receives a timestamp in a list format and returns a Timestamp object.
+    """
+
+    if len(node) != 3:
+        raise ValueError("Invalid timestamp object.")
+
+    return Timestamp(node[0], node[1], node[2])
+
 if __name__ == "__main__":
     msg = "b4759e820cb549c53c755e5905c744f73605f8f6437ae7884252a5f204c8c6e6"
     merkle_root = "f832e7458a6140ef22c6bc1743f09610281f66a1b202e7b4d278b83de55ef58c"    
