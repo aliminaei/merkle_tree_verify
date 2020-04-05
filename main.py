@@ -24,6 +24,14 @@ This function should walk through the timestamps and verify message against merk
 Hints: use hashlib.sha256 and hash.hexdigest. message is big-endian while merkleRoot is little-endian.
 """ 
 def verify_hash(timestamp_list, message, merkle_root):
+    # check if initial message is in a valid hex format
+    if not is_hex_bytes(message):
+        raise ValueError("Invalid initail message. Initial message should be in valid hex format.")
+
+    # check if merkle root is in a valid hex format
+    if not is_hex_bytes(merkle_root):
+        raise ValueError("Invalid merkle root. Merkle root should be in valid hex format.")
+
     timestamps = []
     # Iterate through the list and parse Timestamp objects
     print("Parsing list of timestamps.")
@@ -33,6 +41,18 @@ def verify_hash(timestamp_list, message, merkle_root):
         print(timestamp.operator)
 
     return False
+
+
+def is_hex_bytes(hex_string):
+    """
+    This functoin checks if a given string is a hex string and can be converted to byte array.
+    """
+    try:
+        bytearray.fromhex(hex_string)
+    except ValueError:
+        return False
+
+    return True
 
 
 def load_timestamp_list_from_file(filename):
