@@ -146,6 +146,20 @@ class TestMain(unittest.TestCase):
               "sha256",
               "",
               "a74fe7cf3fa4c5847a47c3c8e6ee85094bcbda0c50b05848eef67c96ef8867f5"
+            ]
+        ]
+        self.assertTrue(main.verify_hash(timestamps, "b4759e820cb549c53c755e5905c744f73605f8f6437ae7884252a5f204c8c6e6", "2b042c394497958496ae3394ee2bb8708c40203afc7c38a7160f0cd20fd7a182"))
+
+        timestamps = [
+            [
+              "sha256",
+              "",
+              "e3be16e996ecf573979ca58498c50029"
+            ],
+            [
+              "sha256",
+              "",
+              "a74fe7cf3fa4c5847a47c3c8e6ee85094bcbda0c50b05848eef67c96ef8867f5"
             ],
             [
               "sha256",
@@ -332,7 +346,7 @@ class TestMain(unittest.TestCase):
               "",
               ""
             ]
-          ]
+        ]
 
         self.assertTrue(main.verify_hash(timestamps, "b4759e820cb549c53c755e5905c744f73605f8f6437ae7884252a5f204c8c6e6", "f832e7458a6140ef22c6bc1743f09610281f66a1b202e7b4d278b83de55ef58c"))
 

@@ -43,17 +43,18 @@ def verify_hash(timestamp_list, message, merkle_root):
 
     # Navigating through the timestamps!
     for timestamp in timestamps:
-        sha256 = hashlib.sha256()
-        sha256.update(timestamp.prefix)
-        sha256.update(message)
-        sha256.update(timestamp.postfix)
+        message = timestamp.prefix + message + timestamp.postfix
+        message_bytes = bytearray.fromhex(message)
+        sha256 = hashlib.sha256(message_bytes)
         message = sha256.hexdigest()
-        print message
 
     # checking if the message verifies agains the root!
     return merkle_root == message
 
 def change_endian(hex_string):
+    """
+    This function changes the endian of a given hex string.
+    """
     if not is_hex_bytes(hex_string):
         raise ValueError("The string is not a valid hexadecimal string.")
 
@@ -107,8 +108,8 @@ def parse_timestamp(node):
 
 if __name__ == "__main__":
     msg = "b4759e820cb549c53c755e5905c744f73605f8f6437ae7884252a5f204c8c6e6"
-    merkle_root = "f832e7458a6140ef22c6bc1743f09610281f66a1b202e7b4d278b83de55ef58c"    
-    
+    merkle_root = "f832e7458a6140ef22c6bc1743f09610281f66a1b202e7b4d278b83de55ef58c"  
+
     # read all the timestamps from the JSON file as a list
     print("Reading timestamps from file.")
     timestamps = load_timestamp_list_from_file("./bag/timestamp.json")
