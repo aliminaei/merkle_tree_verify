@@ -3,8 +3,19 @@ import json
 import os
 
 class Timestamp:
-    def __init__(self, op, prefix, postfix):
-        self.operator = op
+    # Accepted/Supported operators
+    accepted_operators = [
+        "sha256"
+    ]
+
+    def __init__(self, operator, prefix, postfix):
+        if not operator:
+            raise ValueError("Invalid operator.")
+
+        if operator not in self.accepted_operators:
+            raise ValueError("Invalid operator.")
+
+        self.operator = operator
         self.prefix = prefix
         self.postfix = postfix
 
@@ -12,7 +23,15 @@ class Timestamp:
 This function should walk through the timestamps and verify message against merkleRoot
 Hints: use hashlib.sha256 and hash.hexdigest. message is big-endian while merkleRoot is little-endian.
 """ 
-def verify_hash(timestamps, message, merkle_root):
+def verify_hash(timestamp_list, message, merkle_root):
+    timestamps = []
+    # Iterate through the list and parse Timestamp objects
+    print("Parsing list of timestamps.")
+    for node in timestamp_list:
+        timestamp = parse_timestamp(node)
+        timestamps.append(timestamp)
+        print(timestamp.operator)
+
     return False
 
 
@@ -51,9 +70,10 @@ def parse_timestamp(node):
 if __name__ == "__main__":
     msg = "b4759e820cb549c53c755e5905c744f73605f8f6437ae7884252a5f204c8c6e6"
     merkle_root = "f832e7458a6140ef22c6bc1743f09610281f66a1b202e7b4d278b83de55ef58c"    
-    timestamp_list = load_timestamp_list_from_file("./bag/timestamp.json")
-
-    timestamps = []
+    
+    # read all the timestamps from the JSON file as a list
+    print("Reading timestamps from file.")
+    timestamps = load_timestamp_list_from_file("./bag/timestamp.json")
 
     if verify_hash(timestamps, msg, merkle_root):
         print("CORRECT!")

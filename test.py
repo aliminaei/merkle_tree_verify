@@ -50,7 +50,7 @@ class TestMain(unittest.TestCase):
           "1234"
         ]
         with self.assertRaises(ValueError):
-            main.parse_timestamp(node4)
+            main.parse_timestamp(node)
 
         # Empty prefix and postfix
         node = [
