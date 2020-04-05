@@ -86,19 +86,7 @@ class TestMain(unittest.TestCase):
         
 
     def test_verify_hash(self):
-        with self.assertRaises(ValueError):
-            main.verify_hash([], "NOT HEX", "aa")
-
-        with self.assertRaises(ValueError):
-            main.verify_hash([], "aa", "NOT HEX")
-
-        with self.assertRaises(ValueError):
-            main.verify_hash([], "NOT HEX", "NOT HEX")
-
-        self.assertTrue(main.verify_hash([], "ab", "ab"))
-
-        self.assertFalse(main.verify_hash([], "ab", "cd"))
-
+        self.assertFalse(main.verify_hash("", "", ""))
 
 
 if __name__ == "__main__":
