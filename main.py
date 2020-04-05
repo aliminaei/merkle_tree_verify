@@ -11,7 +11,7 @@ class Timestamp:
 This function should walk through the timestamps and verify message against merkleRoot
 Hints: use hashlib.sha256 and hash.hexdigest. message is big-endian while merkleRoot is little-endian.
 """ 
-def VerifyHash(timestamps, message, merkle_root):
+def verify_hash(timestamps, message, merkle_root):
     return False
 
 if __name__ == "__main__":
@@ -21,7 +21,7 @@ if __name__ == "__main__":
         dat = json.load(fp)
         timestamps = []
 
-        if VerifyHash(timestamps, msg, merkle_root):
+        if verify_hash(timestamps, msg, merkle_root):
             print("CORRECT!")
         else:
             print("INCORRECT!")
