@@ -38,9 +38,16 @@ def verify_hash(timestamp_list, message, merkle_root):
     for node in timestamp_list:
         timestamp = parse_timestamp(node)
         timestamps.append(timestamp)
-        print(timestamp.operator)
 
-    return False
+    for timestamp in timestamps:
+        sha256 = hashlib.sha256()
+        sha256.update(timestamp.prefix)
+        sha256.update(message)
+        sha256.update(timestamp.postfix)
+        message = sha256.hexdigest()
+        print message
+
+    return merkle_root == message
 
 
 def is_hex_bytes(hex_string):
